@@ -153,6 +153,9 @@ p { margin: 0; }
 .nav a:hover::after, .nav a.on::after { transform: scaleX(1); }
 .nav a.on { color: var(--ink); }
 .nav a.nav-new { color: var(--accent); }
+.nav a { white-space: nowrap; }
+.nav-short { display: none; }
+@media (max-width: 1240px) and (min-width: 861px) { .nav-long { display: none; } .nav-short { display: inline; } }
 .top-actions { display: flex; align-items: center; gap: 10px; }
 .fav-count { position: relative; }
 .fav-count b { position: absolute; top: -4px; right: -4px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 999px; background: var(--rose); color: #fff; font-size: 11px; line-height: 19px; text-align: center; }
@@ -424,7 +427,7 @@ textarea.input { min-height: 96px; resize: vertical; }
 .ring small { position: absolute; left: 0; right: 0; bottom: 30px; text-align: center; font-size: 11px; color: var(--muted); font-weight: 700; }
 .score h3 { font-size: 20px; }
 .score p { color: var(--muted); margin-top: 6px; font-size: 15px; }
-.days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 22px; }
+.days { display: grid; grid-template-columns: repeat(var(--n, 7), 1fr); gap: 10px; margin-top: 22px; }
 .day { position: relative; padding: 14px 10px; border-radius: 18px; background: var(--surface); border: 2px solid var(--line); text-align: center; cursor: pointer; transition: border-color .2s, transform .25s cubic-bezier(.2, .9, .3, 1.3); }
 .day:hover { transform: translateY(-3px); }
 .day.on { border-color: var(--accent); }
@@ -448,6 +451,20 @@ textarea.input { min-height: 96px; resize: vertical; }
 .src-badge.live i { animation: blink 1.6s infinite; }
 @keyframes blink { 50% { opacity: .3; } }
 .wx-loc { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.wx-status { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn svg.spin { transition: transform .6s ease; }
+.btn:hover svg.spin { transform: rotate(-90deg); }
+.btn.busy svg.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.wx-upd { display: block; margin-top: 4px; font-size: 11.5px !important; color: var(--muted); font-weight: 600; }
+h2 .wx-upd { display: inline; margin-left: 8px; font-family: var(--font-body); letter-spacing: 0; }
+.wx-src-panel { margin-top: 22px; }
+.wx-src-panel summary { cursor: pointer; font-weight: 600; list-style-position: inside; }
+.wx-src-panel summary b { color: var(--accent); }
+.wx-key { display: grid; gap: 6px; margin-top: 12px; }
+.wx-key label { font-size: 13.5px; font-weight: 700; color: var(--muted); }
+.wx-key-row { display: flex; gap: 8px; }
+.wx-key-row .input { flex: 1; }
 
 /* Пози */
 .pose-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
@@ -564,6 +581,31 @@ body.phone-preview #app, body.phone-preview .foot-site { max-width: 400px; margi
 .warn-box { padding: 16px 18px; border-radius: 16px; background: color-mix(in srgb, var(--bad) 10%, var(--surface)); border: 1px solid color-mix(in srgb, var(--bad) 35%, transparent); font-size: 15px; }
 .warn-box b { color: var(--bad); }
 
+/* Перегляд з телефону */
+.pv-layout { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
+.pv-layout > * { min-width: 0; }
+.pv-stage { display: flex; justify-content: center; padding: 28px 16px; border-radius: var(--r-lg); background: radial-gradient(120% 90% at 50% 0%, var(--surface) 0%, var(--bg-2) 70%); border: 1px solid var(--line); overflow: hidden; }
+.pv-fit { position: relative; flex: none; transition: width .35s cubic-bezier(.2, .8, .2, 1), height .35s cubic-bezier(.2, .8, .2, 1); }
+.pv-device { position: absolute; left: 0; top: 0; transform-origin: 0 0; padding: 12px; border-radius: 52px; background: #0c1416; box-shadow: 0 0 0 2px #2a3638, 0 40px 70px -30px rgba(0, 0, 0, .6); transition: transform .35s cubic-bezier(.2, .8, .2, 1); }
+.pv-device.land { border-radius: 46px; }
+.pv-screen { border-radius: 40px; overflow: hidden; background: var(--bg); }
+.pv-device.land .pv-screen { border-radius: 34px; }
+.pv-device iframe { display: block; border: 0; background: var(--bg); }
+.pv-status { position: relative; height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px 0 34px; background: color-mix(in srgb, var(--bg) 82%, var(--surface)); color: var(--ink); font-size: 14px; }
+.pv-island { position: absolute; top: 10px; left: 50%; width: 96px; height: 26px; transform: translateX(-50%); border-radius: 999px; background: #0c1416; }
+.pv-sig { display: inline-flex; align-items: end; gap: 2px; height: 12px; }
+.pv-sig i { width: 3px; border-radius: 1px; background: currentColor; }
+.pv-sig i:nth-child(1) { height: 4px; } .pv-sig i:nth-child(2) { height: 6px; } .pv-sig i:nth-child(3) { height: 9px; } .pv-sig i:nth-child(4) { height: 12px; }
+.pv-bat { width: 22px; height: 11px; margin-left: 6px; border: 1.5px solid currentColor; border-radius: 3px; background: linear-gradient(90deg, currentColor 70%, transparent 0) 1px 1px / calc(100% - 2px) calc(100% - 2px) no-repeat; }
+.pv-device.land .pv-status { display: none; }
+.pv-side { position: sticky; top: 90px; }
+.pv-side h2 { font-size: 18px; margin-bottom: 12px; }
+.pv-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.pv-size { margin: 12px 0; font-size: 14px; font-weight: 600; }
+.pv-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+/* Сайт усередині рамки: без пункту «Перегляд з телефону» */
+html.embed .nav-phone, html.embed .foot-phone { display: none; }
+
 /* Модальні вікна й тости */
 .modal-back { position: fixed; inset: 0; z-index: 2500; background: rgba(8, 18, 20, .55); display: grid; place-items: center; padding: 20px; animation: fadein .2s ease; backdrop-filter: blur(4px); }
 .modal { width: min(520px, 100%); max-height: calc(100vh - 40px); overflow: auto; background: var(--surface); border-radius: 26px; padding: 28px; position: relative; animation: modalin .35s cubic-bezier(.2, .9, .3, 1.2); }
@@ -600,6 +642,8 @@ body.phone-preview #app, body.phone-preview .foot-site { max-width: 400px; margi
 
 /* ---------- Адаптив ---------- */
 @media (max-width: 1080px) {
+  .pv-layout { grid-template-columns: 1fr; }
+  .pv-side { position: static; order: -1; }
   .nav a { padding: 10px 10px; }
   .nav a svg { display: none; }
   .hero-grid { grid-template-columns: 1fr; }
@@ -683,6 +727,7 @@ body.phone-preview #app, body.phone-preview .foot-site { max-width: 400px; margi
       <a href="#weather"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.4 1.6A3.3 3.3 0 0 0 7 18z"/></svg>Погода</a>
       <a href="#poses"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"/><path d="M12 7v6M12 13l-3 7M12 13l3 7M6 9.5l6-1.5 6-2.5"/></svg>Пози</a>
       <a href="#about"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Про нас</a>
+      <a href="#phone" class="nav-phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg><span class="nav-long">Перегляд з телефону</span><span class="nav-short">З телефону</span></a>
     </nav>
     <div class="top-actions">
       <a class="icon-btn fav-count" id="favCount" href="#f-favorites" aria-label="Обране"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4 7.2 4c2 0 3.4 1.1 4.8 2.8C13.4 5.1 14.8 4 16.8 4c3.6 0 5.8 3.6 4.5 7.1-1.8 4.8-9.3 9.4-9.3 9.4z"/></svg><b></b></a>
@@ -697,10 +742,10 @@ body.phone-preview #app, body.phone-preview .foot-site { max-width: 400px; margi
 <footer class="foot-site">
   <div class="wrap">
     <div><a class="logo" href="#home"><span id="logoMark2"></span><span class="wm"><span class="wm-t">Photo<span class="spot">Spot</span></span></span></a><p>Каталог локацій для фотосесій у Львівській області: світло, погода, дозволи й пози в одному місці.</p></div>
-    <div><h4>Розділи</h4><a href="#locations">Локації</a><a href="#map">Карта</a><a href="#weather">Погода</a><a href="#poses">Пози</a><a href="#about">Про нас</a></div>
+    <div><h4>Розділи</h4><a href="#locations">Локації</a><a href="#map">Карта</a><a href="#weather">Погода</a><a href="#poses">Пози</a><a href="#about">Про нас</a><a href="#phone" class="foot-phone">Перегляд з телефону</a></div>
     <div><h4>Для фотографів</h4><a href="#f-light">Календар світла</a><a href="#f-permits">Дозволи</a><a href="#f-request">Запит власнику</a><a href="#f-add">Додати локацію</a></div>
     <div><h4>Тема</h4><div class="theme-toggle" role="group" aria-label="Тема оформлення"><button data-act="theme" data-k="auto">Авто</button><button data-act="theme" data-k="light">Світла</button><button data-act="theme" data-k="dark">Темна</button></div>
-      <p>Погода — Open-Meteo, карта — OpenStreetMap і CARTO (коли є інтернет).</p></div>
+      <p>Погода — Open-Meteo або OpenWeather (оновлення кожні 15 хв), карта — OpenStreetMap і CARTO (коли є інтернет).</p></div>
     <div class="copy"><span>© 2026 PhotoSpot · Команда 12</span><span>Розклад, ціни й рейтинги — орієнтовні, навчальний проєкт.</span></div>
   </div>
 </footer>
@@ -1900,30 +1945,106 @@ function weatherTip(d, sunDay) {
   return { t: 'Рвані хмари — драматичне небо на заході сонця, беріть панорами.', ids: ['highcastle', 'pidhirtsi', 'trostian', 'olesko'] };
 }
 
+/* Налаштування погоди: джерело й ключ зберігаються лише в цьому браузері */
+const WX = { REFRESH_MIN: 15, TIMEOUT_MS: 8000 };
+const wxPref = {
+  get(k, d) { try { const v = localStorage.getItem('photospot:' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('photospot:' + k, JSON.stringify(v)); } catch (e) { /* сховище недоступне */ } }
+};
+
+/* OpenWeather condition id → WMO-код (як у Open-Meteo) */
+function owmToWmo(id) {
+  if (id >= 200 && id < 300) return 95;
+  if (id >= 300 && id < 400) return 53;
+  if (id === 511) return 66;
+  if (id >= 520 && id < 600) return 80;
+  if (id >= 502 && id < 520) return 65;
+  if (id >= 500 && id < 600) return 61;
+  if (id >= 620 && id < 700) return 85;
+  if (id >= 600 && id < 700) return id === 602 ? 75 : 71;
+  if (id === 771 || id === 781) return 95;
+  if (id >= 700 && id < 800) return 45;
+  if (id === 800) return 0;
+  if (id === 801) return 1;
+  if (id === 802) return 2;
+  return 3;
+}
+
+/* Погода: Open-Meteo (без ключа) або OpenWeather (ваш ключ), кеш і автооновлення кожні 15 хв.
+   Формат для сторінок: { live, source, error, fetchedAt, current:{t,code,wind,hum,cloud}, days:[{date,code,tmax,tmin,pp,wind,cloud,hours:[{h,t,cloud,pp,code,wind}]}] } */
 const Weather = (() => {
-  const cache = {};
+  const TTL = WX.REFRESH_MIN * 60000;
+  const NAMES = { openmeteo: 'Open-Meteo', openweather: 'OpenWeather' };
   const NORMS = [[-1, -7], [0, -6], [6, -2], [13, 3], [19, 8], [22, 11], [24, 13], [23, 12], [18, 8], [12, 4], [5, 0], [0, -4]];
-  async function live(lat, lng) {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,relative_humidity_2m,weather_code,cloud_cover,wind_speed_10m&hourly=temperature_2m,precipitation_probability,cloud_cover,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&timezone=auto&forecast_days=7`;
+  const cache = new Map();
+  let lastRefresh = Date.now(), timer = null, handler = null;
+
+  const source = () => (wxPref.get('wxSource', 'openmeteo') === 'openweather' && wxPref.get('owmKey', '')) ? 'openweather' : 'openmeteo';
+  const ymdOf = d => { const p = kyivParts(d); return ymdStr({ y: p.year, m: p.month, d: p.day }); };
+  const avg = a => a.reduce((s, x) => s + x, 0) / a.length;
+
+  async function getJSON(url, name) {
     const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-    const to = setTimeout(() => ctl && ctl.abort(), 7000);
-    const res = await fetch(url, ctl ? { signal: ctl.signal } : {});
-    clearTimeout(to);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const j = await res.json();
+    const to = setTimeout(() => ctl && ctl.abort(), WX.TIMEOUT_MS);
+    try {
+      const res = await fetch(url, ctl ? { signal: ctl.signal } : {});
+      if (res.status === 401) throw new Error('ключ OpenWeather недійсний або ще не активований');
+      if (res.status === 429) throw new Error(`перевищено ліміт запитів ${name}`);
+      if (!res.ok) throw new Error(`${name} відповів ${res.status}`);
+      return await res.json();
+    } finally { clearTimeout(to); }
+  }
+
+  async function openMeteo(lat, lng) {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,relative_humidity_2m,weather_code,cloud_cover,wind_speed_10m&hourly=temperature_2m,precipitation_probability,cloud_cover,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&timezone=auto&forecast_days=7`;
+    const j = await getJSON(url, 'Open-Meteo');
     const days = j.daily.time.map((date, i) => {
       const hours = [];
       j.hourly.time.forEach((t, k) => { if (t.startsWith(date)) hours.push({ h: +t.slice(11, 13), t: j.hourly.temperature_2m[k], cloud: j.hourly.cloud_cover[k], pp: j.hourly.precipitation_probability[k] ?? 0, code: j.hourly.weather_code[k], wind: j.hourly.wind_speed_10m[k] }); });
       const dayH = hours.filter(x => x.h >= 7 && x.h <= 18);
-      return { date, code: j.daily.weather_code[i], tmax: j.daily.temperature_2m_max[i], tmin: j.daily.temperature_2m_min[i], pp: j.daily.precipitation_probability_max[i] ?? 0, wind: j.daily.wind_speed_10m_max[i], cloud: dayH.length ? dayH.reduce((a, x) => a + x.cloud, 0) / dayH.length : 50, hours };
+      return { date, code: j.daily.weather_code[i], tmax: j.daily.temperature_2m_max[i], tmin: j.daily.temperature_2m_min[i], pp: j.daily.precipitation_probability_max[i] ?? 0, wind: j.daily.wind_speed_10m_max[i], cloud: dayH.length ? avg(dayH.map(x => x.cloud)) : 50, hours };
     });
     const c = j.current || {};
-    return { live: true, current: { t: c.temperature_2m, code: c.weather_code, wind: c.wind_speed_10m, hum: c.relative_humidity_2m, cloud: c.cloud_cover }, days };
+    return { live: true, source: 'Open-Meteo', current: { t: c.temperature_2m, code: c.weather_code, wind: c.wind_speed_10m, hum: c.relative_humidity_2m, cloud: c.cloud_cover }, days };
   }
-  function demo(lat, lng) {
-    const start = todayKyiv();
-    const mountain = lat < 49.3 ? 3.5 : 0;
-    const days = [];
+
+  /* OpenWeather: поточна погода + прогноз на 5 днів із кроком 3 год */
+  async function openWeather(lat, lng, key) {
+    const q = new URLSearchParams({ lat: lat.toFixed(4), lon: lng.toFixed(4), units: 'metric', lang: 'uk', appid: key });
+    const base = 'https://api.openweathermap.org/data/2.5/';
+    const [cur, fc] = await Promise.all([getJSON(base + 'weather?' + q, 'OpenWeather'), getJSON(base + 'forecast?' + q, 'OpenWeather')]);
+    const kmh = ms => Math.round((ms || 0) * 3.6);
+    const current = { t: cur.main.temp, code: owmToWmo(cur.weather?.[0]?.id ?? 803), wind: kmh(cur.wind?.speed), hum: cur.main.humidity, cloud: cur.clouds?.all ?? 0 };
+    const byDay = new Map();
+    for (const it of fc.list) {
+      const d = new Date(it.dt * 1000), date = ymdOf(d);
+      if (!byDay.has(date)) byDay.set(date, []);
+      byDay.get(date).push({ h: kyivParts(d).hour, t: it.main.temp, tmax: it.main.temp_max, tmin: it.main.temp_min, cloud: it.clouds?.all ?? 0, pp: Math.round((it.pop || 0) * 100), code: owmToWmo(it.weather?.[0]?.id ?? 803), wind: kmh(it.wind?.speed) });
+    }
+    const today = ymdStr(todayKyiv()), nowH = kyivParts(new Date()).hour;
+    if (!byDay.has(today)) byDay.set(today, []);
+    const th = byDay.get(today);
+    if (!th.some(x => x.h === nowH)) th.push({ h: nowH, t: current.t, tmax: current.t, tmin: current.t, cloud: current.cloud, pp: th.length ? th[0].pp : 0, code: current.code, wind: current.wind });
+    const dayCode = (hours, pp) => {
+      if (pp > 55) return hours.reduce((a, x) => (x.pp > a.pp ? x : a)).code;
+      const pool = hours.filter(x => x.h >= 7 && x.h <= 18), cnt = {};
+      (pool.length ? pool : hours).forEach(x => { cnt[x.code] = (cnt[x.code] || 0) + 1; });
+      return +Object.entries(cnt).sort((a, b) => b[1] - a[1])[0][0];
+    };
+    let days = [...byDay.entries()].sort((a, b) => (a[0] < b[0] ? -1 : 1)).filter(([date]) => date >= today).map(([date, hours]) => {
+      hours.sort((a, b) => a.h - b.h);
+      const dayH = hours.filter(x => x.h >= 7 && x.h <= 18), pp = Math.max(...hours.map(x => x.pp));
+      let tmax = Math.max(...hours.map(x => x.tmax)), tmin = Math.min(...hours.map(x => x.tmin));
+      if (date === today) { tmax = Math.max(tmax, current.t); tmin = Math.min(tmin, current.t); }
+      return { date, tmax, tmin, pp, code: dayCode(hours, pp), wind: Math.max(...hours.map(x => x.wind)), cloud: avg((dayH.length ? dayH : hours).map(x => x.cloud)), hours: hours.map(({ h, t, cloud, pp, code, wind }) => ({ h, t, cloud, pp, code, wind })) };
+    });
+    if (days.length > 1 && days[days.length - 1].hours.length < 4) days = days.slice(0, -1);
+    return { live: true, source: 'OpenWeather', current, days };
+  }
+
+  /* Демо-прогноз (без інтернету): правдоподібна погода за кліматичними нормами місяця */
+  function demo(lat, lng, error) {
+    const start = todayKyiv(), mountain = lat < 49.3 ? 3.5 : 0, days = [];
     let drift = 0;
     for (let i = 0; i < 7; i++) {
       const ymd = addDays(start, i), date = ymdStr(ymd);
@@ -1933,9 +2054,7 @@ const Weather = (() => {
       const tmax = +(nMax + drift + (r() - .5) * 3 - mountain).toFixed(1), tmin = +(nMin + drift * .7 + (r() - .5) * 2 - mountain).toFixed(1);
       const cloudBase = ymd.m >= 10 || ymd.m <= 2 ? 35 + r() * 60 : 10 + r() * 70;
       const ppBase = cloudBase > 72 ? 25 + r() * 55 : r() * 18;
-      const wind = Math.round(6 + r() * 22);
-      const foggy = cloudBase > 70 && r() < .3;
-      const hours = [];
+      const wind = Math.round(6 + r() * 22), foggy = cloudBase > 70 && r() < .3, hours = [];
       for (let h = 0; h < 24; h++) {
         const k = Math.max(0, Math.sin(Math.PI * (h - 6) / 14));
         const t = +(tmin + (tmax - tmin) * (h >= 6 && h <= 20 ? k : 0)).toFixed(1);
@@ -1945,24 +2064,43 @@ const Weather = (() => {
         if (foggy && h >= 5 && h <= 9) code = 45;
         hours.push({ h, t, cloud, pp, code, wind: Math.round(wind * (0.6 + .5 * k)) });
       }
-      const dayH = hours.filter(x => x.h >= 7 && x.h <= 18);
-      const pp = Math.max(...hours.map(x => x.pp));
-      const cloud = dayH.reduce((a, x) => a + x.cloud, 0) / dayH.length;
+      const dayH = hours.filter(x => x.h >= 7 && x.h <= 18), pp = Math.max(...hours.map(x => x.pp)), cloud = avg(dayH.map(x => x.cloud));
       const code = pp > 55 ? (tmax < 1 ? 71 : 61) : foggy ? 45 : cloud > 85 ? 3 : cloud > 55 ? 2 : cloud > 22 ? 1 : 0;
       days.push({ date, code, tmax, tmin, pp, wind, cloud, hours });
     }
-    const now = kyivParts(new Date());
-    const hh = days[0].hours[now.hour];
-    return { live: false, current: { t: hh.t, code: hh.code, wind: hh.wind, hum: 70 + Math.round(hh.cloud / 5), cloud: hh.cloud }, days };
+    const hh = days[0].hours[kyivParts(new Date()).hour];
+    return { live: false, source: 'demo', error, current: { t: hh.t, code: hh.code, wind: hh.wind, hum: 70 + Math.round(hh.cloud / 5), cloud: hh.cloud }, days };
   }
-  async function get(lat, lng) {
-    const key = lat.toFixed(2) + ',' + lng.toFixed(2);
-    if (cache[key]) return cache[key];
-    const p = live(lat, lng).catch(() => demo(lat, lng));
-    cache[key] = p;
+
+  /* Прогноз для координат. Кеш живе REFRESH_MIN хвилин */
+  function get(lat, lng) {
+    const src = source(), name = NAMES[src];
+    const key = src + ':' + lat.toFixed(2) + ',' + lng.toFixed(2);
+    const hit = cache.get(key);
+    if (hit && Date.now() - hit.at < TTL) return hit.p;
+    const p = (src === 'openweather' ? openWeather(lat, lng, wxPref.get('owmKey', '')) : openMeteo(lat, lng))
+      .catch(e => demo(lat, lng, e.name === 'AbortError' ? `${name} не відповідає` : e instanceof TypeError ? `немає з’єднання з ${name}` : e.message))
+      .then(w => Object.assign(w, { fetchedAt: new Date() }));
+    cache.set(key, { at: Date.now(), p });
     return p;
   }
-  return { get };
+  /* Повне оновлення: скидає кеш і просить сторінку перемалювати погодні блоки */
+  function refresh() { cache.clear(); lastRefresh = Date.now(); schedule(); if (handler) handler(); }
+  function schedule() {
+    clearTimeout(timer);
+    timer = setTimeout(() => { if (!document.hidden) refresh(); }, Math.max(1000, lastRefresh + TTL - Date.now()));
+  }
+  /* У фоновій вкладці API не смикаємо: оновлюємо, щойно вкладку знову відкрито й інтервал минув */
+  function startAutoRefresh(onRefresh) {
+    handler = onRefresh; lastRefresh = Date.now(); schedule();
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastRefresh >= TTL) refresh(); });
+  }
+  function setSource(src, key) {
+    wxPref.set('wxSource', src);
+    if (key !== undefined) wxPref.set('owmKey', key.trim());
+    refresh();
+  }
+  return { get, refresh, startAutoRefresh, setSource, source, sourceName: () => NAMES[source()], hasKey: () => !!wxPref.get('owmKey', ''), nextRefreshAt: () => new Date(lastRefresh + TTL) };
 })();
 
 /* ===== Схематична підоснова Львівщини (спрощені контури, для офлайн-режиму карти) ===== */
@@ -2214,6 +2352,13 @@ const GeoMap = (() => {
 
 /* ===== PhotoSpot · Львівщина — застосунок ===== */
 (() => {
+/* Сайт усередині «Перегляду з телефону» (iframe з ім’ям ps-embed) */
+const EMBED = window.name === 'ps-embed';
+const PAGE_SRC = EMBED ? '' : '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+if (EMBED) {
+  document.documentElement.classList.add('embed');
+  if (window.PS_START && !location.hash && window.PS_START !== 'home') { try { location.hash = window.PS_START; } catch (e) { /* без хешу — головна */ } }
+}
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -2256,6 +2401,8 @@ const IC = {
   next: sv('<path d="M6 5l9 7-9 7zM18 5v14"/>'),
   prev: sv('<path d="M18 5l-9 7 9 7zM6 5v14"/>'),
   shuffle: sv('<path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>'),
+  refresh: sv('<path d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16M20 20v-4h-4"/>', 'class="spin"'),
+  rotate: sv('<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M20.5 9.5a8 8 0 0 1 0 5M3.5 14.5a8 8 0 0 1 0-5"/>'),
   copy: sv('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>'),
   trash: sv('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>'),
   ext: sv('<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>'),
@@ -2462,7 +2609,8 @@ function afterHome() {
   Weather.get(...GEO.lviv).then(w => {
     const el = $('#heroWx'); if (!el) return;
     const d0 = w.days[0], score = photoIndex(d0);
-    el.innerHTML = `<small>Погода у Львові ${w.live ? 'зараз' : '(демо)'}</small><div class="row">${wIcon(w.current.code)}<span class="t num">${Math.round(w.current.t)}°</span></div><small>${WMO(w.current.code)} · фото-індекс дня <b style="color:var(--ink)">${score}</b></small>`;
+    el.title = w.live ? `${w.source}, оновлено о ${fmtHM(w.fetchedAt)}` : `Демо-прогноз: ${w.error || ''}`;
+    el.innerHTML = `<small>Погода у Львові ${w.live ? 'зараз' : '(демо)'}</small><div class="row">${wIcon(w.current.code)}<span class="t num">${Math.round(w.current.t)}°</span></div><small>${WMO(w.current.code)} · фото-індекс дня <b style="color:var(--ink)">${score}</b></small><small class="wx-upd">${w.live ? 'оновлено о ' + fmtHM(w.fetchedAt) : 'демо-дані'}</small>`;
   });
 }
 
@@ -2555,7 +2703,7 @@ Pages.loc = id => {
           ${l.area === 'carp' ? '<p class="muted" style="margin-top:10px;font-size:14px">У горах сонце ховається за хребти раніше — приходьте на 30–40 хвилин раніше від розрахункового заходу.</p>' : ''}
           <p style="margin-top:12px"><a class="link-more" href="#f-light" data-act="set-loc" data-id="${l.id}">Календар світла на інші дати ${IC.arrow}</a></p>
         </div>
-        <div class="panel"><h2>Погода на 3 дні</h2><div class="mini-wx" id="miniWx"><div>Завантаження…</div></div>
+        <div class="panel"><h2>Погода на 3 дні <small class="wx-upd" id="miniWxUpd"></small></h2><div class="mini-wx" id="miniWx"><div>Завантаження…</div></div>
           <p style="margin-top:12px"><a class="link-more" href="#weather" data-act="wx-loc" data-id="${l.id}">Повний прогноз і фото-індекс ${IC.arrow}</a></p></div>
         <div class="panel"><h2>Пози для цієї локації</h2>
           <div class="pose-strip">${(l.poses || []).map(pid => `<a href="#poses" data-act="open-pose" data-id="${pid}">${PoseSVG.render(POSE[pid])}${esc(POSE[pid].name)}</a>`).join('')}</div></div>
@@ -2589,12 +2737,18 @@ Pages.loc = id => {
 };
 function afterLoc(id) {
   const l = LOC[id];
-  Weather.get(l.lat, l.lng).then(w => {
-    const el = $('#miniWx'); if (!el) return;
-    el.innerHTML = w.days.slice(0, 3).map((d, i) => `<div><b>${i === 0 ? 'Сьогодні' : fmtDay(new Date(parseYmd(d.date).y, parseYmd(d.date).m - 1, parseYmd(d.date).d, 12), { weekday: 'short', day: 'numeric' })}</b>${wIcon(d.code)}<div class="num"><b>${Math.round(d.tmax)}°</b> / ${Math.round(d.tmin)}°</div><div style="margin-top:6px"><span class="pill ${verdict(photoIndex(d)).c}">індекс ${photoIndex(d)}</span></div></div>`).join('') + (w.live ? '' : '');
-  });
+  renderLocWeather(id);
   const near = LOCATIONS.filter(x => x.id !== id).map(x => [x, hav([l.lat, l.lng], [x.lat, x.lng])]).sort((a, b) => a[1] - b[1]).slice(0, 3).map(a => a[0]);
   MapKit.mini($('#minimap'), l, near);
+}
+/* Блок «Погода на 3 дні» окремо, щоб автооновлення не перемальовувало карту */
+function renderLocWeather(id) {
+  const l = LOC[id];
+  Weather.get(l.lat, l.lng).then(w => {
+    const el = $('#miniWx'); if (!el) return;
+    const up = $('#miniWxUpd'); if (up) up.textContent = w.live ? `${w.source} · оновлено о ${fmtHM(w.fetchedAt)}` : `Демо-прогноз: ${w.error || ''}`;
+    el.innerHTML = w.days.slice(0, 3).map((d, i) => `<div><b>${i === 0 ? 'Сьогодні' : fmtDay(new Date(parseYmd(d.date).y, parseYmd(d.date).m - 1, parseYmd(d.date).d, 12), { weekday: 'short', day: 'numeric' })}</b>${wIcon(d.code)}<div class="num"><b>${Math.round(d.tmax)}°</b> / ${Math.round(d.tmin)}°</div><div style="margin-top:6px"><span class="pill ${verdict(photoIndex(d)).c}">індекс ${photoIndex(d)}</span></div></div>`).join('');
+  });
 }
 const reviewHTML = r => `<div class="review"><div class="who"><i>${esc(r.who[0])}</i>${esc(r.who)}${r.loc && !r.hideLoc ? '' : ''}<span class="stars">${IC.star}${r.r.toFixed(1)}</span></div><p>${esc(r.t)}</p></div>`;
 const allReviews = () => Store.get('reviews', []).concat(REVIEWS);
@@ -2707,19 +2861,40 @@ Pages.weather = () => {
   const l = LOC[ctx.weatherLoc];
   const quick = ['rynok', 'zolochiv', 'svirzh', 'zhovkva', 'tustan', 'parashka', 'trostian', 'drohobych'];
   return `<div class="page"><div class="wrap">
-    <div class="page-head"><div><h1>Погода для зйомки</h1><p>Прогноз на 7 днів, фото-індекс і світло для обраної локації. Найкращий день тижня підсвічено.</p></div><span id="wxSrc"></span></div>
+    <div class="page-head"><div><h1>Погода для зйомки</h1><p>Прогноз на тиждень, фото-індекс і світло для обраної локації. Найкращий день підсвічено, дані оновлюються самі кожні ${WX.REFRESH_MIN} хвилин.</p></div>
+      <div class="wx-status"><span id="wxSrc"></span><button class="btn btn-ghost btn-sm" data-act="wx-refresh" id="wxRefresh">${IC.refresh}Оновити</button></div></div>
     <div class="wx-loc" style="margin-bottom:22px">
       <select class="select" data-act-change="wx-select" aria-label="Локація">${Object.entries(AREAS).map(([a, n]) => `<optgroup label="${n}">${LOCATIONS.filter(x => x.area === a).map(x => `<option value="${x.id}" ${x.id === l.id ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</optgroup>`).join('')}</select>
       ${quick.map(id => `<button class="chip ${id === l.id ? 'on' : ''}" data-act="wx-loc" data-id="${id}">${esc(LOC[id].city === 'Львів' ? 'Львів, центр' : LOC[id].city)}</button>`).join('')}
     </div>
     <div id="wxBody"><div class="panel"><p class="muted">Завантажую прогноз для «${esc(l.name)}»…</p></div></div>
+    ${wxSourcePanel()}
   </div></div>`;
 };
+function wxSourcePanel() {
+  const src = Weather.source(), key = wxPref.get('owmKey', '');
+  const chosen = wxPref.get('wxSource', 'openmeteo');
+  return `<details class="panel wx-src-panel" ${chosen === 'openweather' && !key ? 'open' : ''}>
+    <summary>Джерело погоди: <b>${Weather.sourceName()}</b>${src === 'openweather' ? ' (ваш ключ)' : ' (без ключа)'}</summary>
+    <div class="quick" style="margin:14px 0 4px">
+      <button class="chip ${chosen !== 'openweather' ? 'on' : ''}" data-act="wx-src" data-k="openmeteo">Open-Meteo · без ключа, 7 днів</button>
+      <button class="chip ${chosen === 'openweather' ? 'on' : ''}" data-act="wx-src" data-k="openweather">OpenWeather · свій ключ, 5 днів</button>
+    </div>
+    <form class="wx-key" data-form="owm-key" ${chosen === 'openweather' ? '' : 'hidden'}>
+      <label for="owmKey">Ключ OpenWeather API</label>
+      <div class="wx-key-row"><input class="input" id="owmKey" name="key" type="password" autocomplete="off" placeholder="Вставте ключ з home.openweathermap.org/api_keys" value="${esc(key)}"><button class="btn btn-accent btn-sm" type="submit">Зберегти</button></div>
+    </form>
+    <p class="muted" style="font-size:13.5px;margin-top:10px">Ключ зберігається лише в цьому браузері й не потрапляє в код сайту чи на GitHub. Новий ключ OpenWeather активується до кількох годин — доти показується демо-прогноз із причиною.</p>
+  </details>`;
+}
 function afterWeather() {
   const l = LOC[ctx.weatherLoc];
   Weather.get(l.lat, l.lng).then(w => {
     const body = $('#wxBody'); if (!body || ctx.weatherLoc !== l.id) return;
-    $('#wxSrc').innerHTML = w.live ? '<span class="src-badge live"><i></i>Наживо · Open-Meteo</span>' : '<span class="src-badge demo"><i></i>Демо-прогноз: у цьому перегляді інтернет-запити вимкнені</span>';
+    $('#wxSrc').innerHTML = w.live
+      ? `<span class="src-badge live" title="Наступне оновлення о ${fmtHM(Weather.nextRefreshAt())}"><i></i>Наживо · ${w.source} · оновлено о ${fmtHM(w.fetchedAt)}</span>`
+      : `<span class="src-badge demo" title="${esc(w.error || '')}"><i></i>Демо-прогноз: ${esc(w.error || 'джерело недоступне')}</span>`;
+    const rb = $('#wxRefresh'); if (rb) rb.classList.remove('busy');
     const scores = w.days.map(photoIndex);
     const best = scores.indexOf(Math.max(...scores));
     const di = Math.min(ctx.wxDay, w.days.length - 1);
@@ -2746,7 +2921,7 @@ function afterWeather() {
             <p style="margin-top:12px;font-size:14px"><b>Де знімати:</b> ${tip.ids.map(id => `<a href="#loc-${id}" style="color:var(--accent);font-weight:700">${esc(LOC[id].name)}</a>`).join(', ')}</p>
             <p style="margin-top:10px"><a class="link-more" href="#f-weather">Як рахується фото-індекс ${IC.arrow}</a></p></div></div></div>
       </div>
-      <div class="days">${w.days.map((x, i) => { const y = parseYmd(x.date); const dt = new Date(y.y, y.m - 1, y.d, 12); return `<button class="day ${i === di ? 'on' : ''} ${i === best ? 'best' : ''}" data-act="wx-day" data-i="${i}">
+      <div class="days" style="--n:${w.days.length}">${w.days.map((x, i) => { const y = parseYmd(x.date); const dt = new Date(y.y, y.m - 1, y.d, 12); return `<button class="day ${i === di ? 'on' : ''} ${i === best ? 'best' : ''}" data-act="wx-day" data-i="${i}">
         <div class="dn">${i === 0 ? 'Сьогодні' : fmtDay(dt, { weekday: 'short' })}</div><div class="dd">${fmtDay(dt, { day: 'numeric', month: 'short' })}</div>${wIcon(x.code)}
         <div class="tt num">${Math.round(x.tmax)}° <span>${Math.round(x.tmin)}°</span></div><div class="pp">опади ${Math.round(x.pp)}%</div><div class="pi"><span class="pill ${verdict(scores[i]).c}">${scores[i]}</span></div></button>`; }).join('')}</div>
       <div class="panel hourly"><h2>Погодинно: ${di === 0 ? 'сьогодні' : fmtDay(dayDate, { weekday: 'long', day: 'numeric', month: 'long' })}</h2>${hourlyChart(d, dd)}
@@ -2766,11 +2941,12 @@ function hourlyChart(d, dd) {
   const t0 = dd.start.getTime(), hx = t => px + ((t - t0) / 3600000) / 23 * w;
   let bands = '';
   Sun.phases(dd).forEach(s => { if (s.k === 'day') return; const x1 = Math.max(px, hx(s.from)), x2 = Math.min(W - px, hx(s.to)); if (x2 <= x1) return; bands += `<rect x="${x1}" y="18" width="${x2 - x1}" height="232" fill="${s.k === 'gold' ? 'var(--gold)' : s.k === 'blue' ? 'var(--dusk)' : 'var(--ink)'}" opacity="${s.k === 'gold' ? .22 : s.k === 'blue' ? .2 : .05}"/>`; });
-  const bw = w / 24 * .7;
+  const sparse = hs.length < 20;   // OpenWeather дає точки кожні 3 год — тоді ширші стовпчики й підпис на кожній точці
+  const bw = w / 24 * .7 * (sparse ? 2.4 : 1);
   const bars = hs.map(h => `<rect x="${X(h.h) - bw / 2}" y="${250 - h.cloud * .6}" width="${bw}" height="${h.cloud * .6}" rx="3" fill="var(--muted)" opacity=".28"><title>${h.h}:00 — хмарність ${h.cloud}%</title></rect><rect x="${X(h.h) - bw / 4}" y="${250 - h.pp * .6}" width="${bw / 2}" height="${h.pp * .6}" rx="2" fill="var(--dusk)" opacity=".75"><title>${h.h}:00 — опади ${h.pp}%</title></rect>`).join('');
   const path = hs.map((h, i) => (i ? 'L' : 'M') + X(h.h).toFixed(1) + ' ' + Y(h.t).toFixed(1)).join(' ');
-  const dots = hs.filter(h => h.h % 3 === 0).map(h => `<circle cx="${X(h.h)}" cy="${Y(h.t)}" r="4" fill="var(--surface)" stroke="var(--gold-deep)" stroke-width="2.5"/><text x="${X(h.h)}" y="${Y(h.t) - 10}" text-anchor="middle" style="fill:var(--ink);font-weight:800">${Math.round(h.t)}°</text>`).join('');
-  const labels = hs.filter(h => h.h % 3 === 0).map(h => `<text x="${X(h.h)}" y="${H - 4}" text-anchor="middle">${String(h.h).padStart(2, '0')}:00</text>`).join('');
+  const dots = hs.filter(h => sparse || h.h % 3 === 0).map(h => `<circle cx="${X(h.h)}" cy="${Y(h.t)}" r="4" fill="var(--surface)" stroke="var(--gold-deep)" stroke-width="2.5"/><text x="${X(h.h)}" y="${Y(h.t) - 10}" text-anchor="middle" style="fill:var(--ink);font-weight:800">${Math.round(h.t)}°</text>`).join('');
+  const labels = [0, 3, 6, 9, 12, 15, 18, 21].map(h => `<text x="${X(h)}" y="${H - 4}" text-anchor="middle">${String(h).padStart(2, '0')}:00</text>`).join('');
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Погодинний графік">${bands}<line x1="${px}" y1="250" x2="${W - px}" y2="250" stroke="var(--line)"/>${bars}<path d="${path}" fill="none" stroke="var(--gold-deep)" stroke-width="3" stroke-linejoin="round"/>${dots}${labels}</svg>`;
 }
 
@@ -2926,7 +3102,7 @@ Pages['f-weather'] = () => fPage('weather', `<div class="two">
       <tr><td>Туман зранку</td><td class="r"><span class="pill good">+6</span></td></tr>
     </tbody></table>
     <p class="muted" style="margin-top:14px;font-size:14.5px">Чому ясне небо не найкраще? Без хмар захід сонця пласкіший, а вдень світло жорстке. Рвані хмари дають і драматичне небо, і м’які тіні.</p>
-    <p style="margin-top:16px"><a class="btn btn-gold" href="#weather">${IC.cloud}Відкрити прогноз на 7 днів</a></p></div></div>`);
+    <p style="margin-top:16px"><a class="btn btn-gold" href="#weather">${IC.cloud}Відкрити прогноз погоди</a></p></div></div>`);
 function calcUpdate() {
   const v = id => +$('#' + id).value;
   const d = { cloud: v('cCloud'), pp: v('cPp'), wind: v('cWind'), tmax: v('cT'), code: v('cCloud') > 85 ? 3 : 1 };
@@ -3083,8 +3259,93 @@ Pages['f-mobile'] = () => fPage('mobile', `<div class="two" style="align-items:c
       <li>— Пози в режимі тренування відкриваються на весь екран — зручно показати моделі.</li>
       <li>— Обране й мудборди зберігаються в браузері телефону.</li>
       <li>— Додайте сайт на головний екран через меню браузера «Поділитися → На початковий екран».</li></ul>
-    <p style="margin-top:22px"><button class="btn btn-gold" data-act="phone-preview">${IC.phone}${document.body.classList.contains('phone-preview') ? 'Вимкнути вигляд телефону' : 'Показати сайт у ширині телефону'}</button></p>
-    <p class="muted" style="font-size:13.5px;margin-top:10px">Обмежує ширину сторінки до 400 px — так ви побачите мобільну верстку без телефону.</p></div></div>`);
+    <p style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-gold" href="#phone">${IC.phone}Відкрити перегляд з телефону</a><button class="btn btn-ghost" data-act="phone-preview">${document.body.classList.contains('phone-preview') ? 'Вимкнути вузьку ширину' : 'Звузити цю сторінку до 400 px'}</button></p>
+    <p class="muted" style="font-size:13.5px;margin-top:10px">Перегляд з телефону відкриває сайт у рамці смартфона з реальною шириною екрана: можна обрати модель телефону й повернути його.</p></div></div>`);
+
+/* ---------- Перегляд з телефону: сайт у рамці смартфона ---------- */
+const DEVICES = {
+  se:     { name: 'iPhone SE',   w: 375, h: 667 },
+  iphone: { name: 'iPhone 15',   w: 393, h: 852 },
+  galaxy: { name: 'Galaxy S24',  w: 360, h: 780 },
+  pixel:  { name: 'Pixel 8 Pro', w: 412, h: 892 }
+};
+const PV_SCREENS = [['home', 'Головна'], ['locations', 'Локації'], ['loc-opera', 'Сторінка локації'], ['map', 'Карта'], ['weather', 'Погода'], ['poses', 'Пози'], ['about', 'Про нас']];
+const PV_BEZEL = 12, PV_STATUS = 44;
+const pv = { device: Store.get('phoneDevice', 'iphone'), land: false, screen: 'home', ro: null, clock: null };
+if (!DEVICES[pv.device]) pv.device = 'iphone';
+/* Копія цієї ж сторінки для iframe: працює і з файлу, і на GitHub Pages, і в перегляді Claude */
+const embedDoc = (start = 'home') => PAGE_SRC.replace('<head>', `<head><base href="about:srcdoc"><script>window.PS_START=${JSON.stringify(start)}<\/script>`);
+
+Pages.phone = () => `<div class="page"><div class="wrap">
+  <div class="page-head"><div><h1>Перегляд з телефону</h1><p>Так PhotoSpot виглядає на смартфоні: справжня мобільна верстка в розмірі екрана. Усередині рамки сайт працює повністю — гортайте, натискайте, відкривайте карту.</p></div></div>
+  <div class="pv-layout">
+    <div class="pv-stage" id="pvStage"><div class="pv-fit" id="pvFit"><div class="pv-device" id="pvDevice"><div class="pv-screen"><div class="pv-status"><b class="num" id="pvClock">${fmtHM(new Date())}</b><span class="pv-island"></span><span class="pv-sig" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="pv-bat"></span></span></div><iframe id="pvFrame" name="ps-embed" title="PhotoSpot на екрані телефону"></iframe></div></div></div></div>
+    <aside class="panel pv-side">
+      <h2>Пристрій</h2>
+      <div class="pv-chips">${Object.entries(DEVICES).map(([k, d]) => `<button class="chip ${k === pv.device ? 'on' : ''}" data-act="pv-device" data-k="${k}">${d.name}</button>`).join('')}</div>
+      <p class="muted pv-size num" id="pvSize"></p>
+      <button class="btn btn-ghost btn-sm" data-act="pv-rotate">${IC.rotate}<span id="pvRot">${pv.land ? 'Вертикально' : 'Горизонтально'}</span></button>
+      <h2 style="margin-top:22px">Екран</h2>
+      <select class="select" style="width:100%" data-act-change="pv-screen" id="pvScreen" aria-label="Сторінка в телефоні">${PV_SCREENS.map(([k, n]) => `<option value="${k}" ${k === pv.screen ? 'selected' : ''}>${n}</option>`).join('')}</select>
+      <div class="pv-actions">
+        <button class="btn btn-ghost btn-sm" data-act="pv-reload">${IC.refresh}Оновити</button>
+        <button class="btn btn-ghost btn-sm" data-act="pv-copy">${IC.copy}Посилання</button>
+      </div>
+      <p class="muted" style="font-size:13.5px;margin-top:14px">Щоб перевірити на справжньому телефоні, скопіюйте посилання й відкрийте його в браузері смартфона.</p>
+    </aside>
+  </div></div></div>`;
+
+/* Масштабує рамку, щоб телефон повністю вміщався в область перегляду */
+function pvFit() {
+  const stage = $('#pvStage'), fitEl = $('#pvFit'), dev = $('#pvDevice'), fr = $('#pvFrame');
+  if (!stage || !dev) return;
+  const d = DEVICES[pv.device], w = pv.land ? d.h : d.w, h = pv.land ? d.w : d.h;
+  const vh = pv.land ? h : h - PV_STATUS;   // вертикально верх займає статус-бар, як у справжньому браузері
+  fr.style.width = w + 'px'; fr.style.height = vh + 'px';
+  dev.classList.toggle('land', pv.land);
+  const natW = w + PV_BEZEL * 2, natH = h + PV_BEZEL * 2;
+  const cs = getComputedStyle(stage);
+  const availW = stage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  const availH = Math.max(360, window.innerHeight - 130);
+  const k = Math.min(1, availW / natW, availH / natH);
+  dev.style.transform = `scale(${k})`;
+  fitEl.style.width = natW * k + 'px'; fitEl.style.height = natH * k + 'px';
+  $('#pvSize').textContent = `Екран ${w} × ${h} · сайт ${w} × ${vh} px${k < 1 ? ` · масштаб ${Math.round(k * 100)}%` : ''}`;
+}
+function afterPhone() {
+  const fr = $('#pvFrame');
+  fr.srcdoc = embedDoc(pv.screen);
+  fr.addEventListener('load', () => {
+    try {
+      const win = fr.contentWindow;
+      if (pv.screen !== 'home' && (win.location.hash.slice(1) || 'home') !== pv.screen) win.location.hash = pv.screen;
+      const sync = () => { const sel = $('#pvScreen'); if (!sel) return; const h = win.location.hash.slice(1) || 'home'; pv.screen = h; if ([...sel.options].some(o => o.value === h)) sel.value = h; };
+      win.addEventListener('hashchange', sync); sync();
+    } catch (err) { /* інше джерело — синхронізація недоступна */ }
+  });
+  if (pv.ro) pv.ro.disconnect();
+  if (typeof ResizeObserver !== 'undefined') { pv.ro = new ResizeObserver(pvFit); pv.ro.observe($('#pvStage')); }
+  clearInterval(pv.clock);
+  pv.clock = setInterval(() => { const c = $('#pvClock'); if (c) c.textContent = fmtHM(new Date()); else clearInterval(pv.clock); }, 20000);
+  pvFit();
+}
+/* Синхронізація списку «Екран» з навігацією в телефоні (працює й між різними джерелами) */
+window.addEventListener('message', e => {
+  const fr = $('#pvFrame'); if (!fr || e.source !== fr.contentWindow || !e.data || typeof e.data.psHash !== 'string') return;
+  pv.screen = e.data.psHash;
+  const sel = $('#pvScreen'); if (sel && [...sel.options].some(o => o.value === pv.screen)) sel.value = pv.screen;
+});
+function phoneAction(act, el) {
+  const fr = $('#pvFrame');
+  if (act === 'pv-device') { pv.device = el.dataset.k; Store.set('phoneDevice', pv.device); $$('[data-act="pv-device"]').forEach(b => b.classList.toggle('on', b === el)); pvFit(); }
+  if (act === 'pv-rotate') { pv.land = !pv.land; $('#pvRot').textContent = pv.land ? 'Вертикально' : 'Горизонтально'; pvFit(); }
+  if (act === 'pv-reload' && fr) { try { fr.contentWindow.location.reload(); } catch (e) { fr.srcdoc = embedDoc(pv.screen); } toast('Сторінку в телефоні оновлено'); }
+  if (act === 'pv-screen' && fr) { pv.screen = el.value; try { fr.contentWindow.location.hash = pv.screen; } catch (e) { fr.srcdoc = embedDoc(pv.screen); } }
+  if (act === 'pv-copy') {
+    const u = location.href.split('#')[0] + '#' + pv.screen;
+    (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => toast('Посилання скопійовано'), () => modal(`<h2>Посилання на сторінку</h2><input class="input" style="margin-top:14px" readonly value="${esc(u)}">`));
+  }
+}
 
 Pages.notfound = () => `<div class="page"><div class="wrap"><div class="empty"><h3>Сторінку не знайдено</h3><p>Можливо, посилання застаріло.</p><p style="margin-top:14px"><a class="btn btn-accent" href="#home">На головну</a></p></div></div></div>`;
 
@@ -3119,9 +3380,12 @@ function renderUser() {
 }
 
 /* ================= РОУТЕР ================= */
-const TITLES = { home: 'Локації для фотосесій', locations: 'Локації Львівщини', map: 'Карта', weather: 'Погода для зйомки', poses: 'Пози', about: 'Про нас' };
+const TITLES = { home: 'Локації для фотосесій', locations: 'Локації Львівщини', map: 'Карта', weather: 'Погода для зйомки', poses: 'Пози', about: 'Про нас', phone: 'Перегляд з телефону' };
 function route() {
-  const h = decodeURIComponent(location.hash.slice(1)) || 'home';
+  let h = decodeURIComponent(location.hash.slice(1)) || 'home';
+  if (EMBED && h === 'phone') { location.replace('#home'); return; }
+  if (EMBED) { try { parent.postMessage({ psHash: h }, '*'); } catch (e) { /* немає батьківського вікна */ } }
+  if (pv.ro) { pv.ro.disconnect(); pv.ro = null; }
   if (curMap) { try { curMap.destroy(); } catch (e) { } curMap = null; MapKit.reset(); }
   closeModal(); $('#userMenu')?.remove();
   $('#nav').classList.remove('open');
@@ -3137,6 +3401,7 @@ function route() {
   if (h === 'locations') renderResults();
   if (h === 'map') { MapKit.big($('#bigmap')); if (ctx.mapFocus) { const id = ctx.mapFocus; ctx.mapFocus = null; setTimeout(() => MapKit.focus(id), 400); } }
   if (h === 'weather') afterWeather();
+  if (h === 'phone') afterPhone();
   if (h === 'f-light') lightUpdate();
   if (h === 'f-weather') calcUpdate();
   if (h === 'f-reviews') rvRender();
@@ -3188,6 +3453,16 @@ document.addEventListener('click', e => {
     case 'set-loc': ctx.loc = id; break;
     case 'wx-loc': e.preventDefault(); ctx.weatherLoc = id; ctx.wxDay = 0; location.hash === '#weather' ? route() : (location.hash = 'weather'); break;
     case 'wx-day': ctx.wxDay = +a.dataset.i; afterWeather(); break;
+    case 'wx-refresh': a.classList.add('busy'); Weather.refresh(); toast('Погоду оновлено'); break;
+    case 'wx-src': {
+      const k = a.dataset.k;
+      $$('[data-act="wx-src"]').forEach(c => c.classList.toggle('on', c === a));
+      $('form[data-form="owm-key"]').hidden = k !== 'openweather';
+      if (k === 'openmeteo' || Weather.hasKey()) { Weather.setSource(k); route(); }
+      else { wxPref.set('wxSource', 'openweather'); $('#owmKey').focus(); }
+      break;
+    }
+    case 'pv-device': case 'pv-rotate': case 'pv-reload': case 'pv-copy': phoneAction(act, a); break;
     case 'map-type': { const k = a.dataset.k; MapState.types.has(k) ? MapState.types.delete(k) : MapState.types.add(k); a.classList.toggle('off'); MapKit.apply(); break; }
     case 'map-area': ctx.mapArea = a.dataset.k; $$('.map-side .tabs .chip').forEach(c => c.classList.toggle('on', c === a)); MapKit.apply(); break;
     case 'map-focus': MapKit.focus(id); $$('.map-item').forEach(b => b.classList.toggle('hl', b === a)); break;
@@ -3221,7 +3496,7 @@ document.addEventListener('click', e => {
       (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast('Список скопійовано — вставте в месенджер'), () => { modal(`<h2>Скопіюйте вручну</h2><textarea class="input" style="min-height:220px;margin-top:14px" readonly>${esc(txt)}</textarea>`); });
       break;
     }
-    case 'phone-preview': document.body.classList.toggle('phone-preview'); a.innerHTML = IC.phone + (document.body.classList.contains('phone-preview') ? 'Вимкнути вигляд телефону' : 'Показати сайт у ширині телефону'); toast(document.body.classList.contains('phone-preview') ? 'Увімкнено вигляд телефону' : 'Повернено звичайну ширину'); break;
+    case 'phone-preview': document.body.classList.toggle('phone-preview'); a.textContent = document.body.classList.contains('phone-preview') ? 'Вимкнути вузьку ширину' : 'Звузити цю сторінку до 400 px'; toast(document.body.classList.contains('phone-preview') ? 'Увімкнено вигляд телефону' : 'Повернено звичайну ширину'); break;
     case 'theme': { const k = a.dataset.k; if (k === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', k); Store.set('theme', k); $$('[data-act="theme"]').forEach(b => b.classList.toggle('on', b === a)); break; }
   }
 });
@@ -3242,6 +3517,7 @@ document.addEventListener('change', e => {
   }
   const ac = t.dataset.actChange;
   if (ac === 'wx-select') { ctx.weatherLoc = t.value; ctx.wxDay = 0; route(); }
+  if (ac === 'pv-screen') phoneAction('pv-screen', t);
   if (ac === 'light-update') lightUpdate();
   if (ac === 'req-update') reqUpdate();
   if (ac === 'route-update') routeUpdate();
@@ -3274,6 +3550,11 @@ document.addEventListener('submit', e => {
     if (fd.get('type')) F.types.add(fd.get('type'));
     if (fd.get('mood')) F.moods.add(fd.get('mood'));
     location.hash = 'locations';
+  }
+  if (kind === 'owm-key') {
+    const key = String(fd.get('key') || '').trim();
+    if (!key) { toast('Вставте ключ OpenWeather'); return; }
+    Weather.setSource('openweather', key); toast('Ключ збережено — завантажую OpenWeather'); route();
   }
   if (kind === 'login') {
     const name = fd.get('name') || String(fd.get('email')).split('@')[0];
@@ -3327,6 +3608,15 @@ $('#logoMark').innerHTML = LOGO; $('#logoMark2').innerHTML = LOGO;
 renderUser(); updateFavCount();
 window.addEventListener('hashchange', route);
 route();
+
+/* Автооновлення погоди: перемальовуємо лише погодні блоки поточної сторінки */
+function refreshWeather() {
+  const h = decodeURIComponent(location.hash.slice(1)) || 'home';
+  if (h === 'home') afterHome();
+  else if (h === 'weather') afterWeather();
+  else if (h.startsWith('loc-') && LOC[h.slice(4)]) renderLocWeather(h.slice(4));
+}
+Weather.startAutoRefresh(refreshWeather);
 })();
 
 </script>
